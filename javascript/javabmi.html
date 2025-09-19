@@ -1,0 +1,26 @@
+<html>
+<head>
+<title>
+     BMI CALCULATOR
+  </TITLE>
+  </HEAD>
+  <BODY>     
+   <script language="javascript">
+BMI=(Wt / m*m)
+ function calc()
+ {
+ var h =document.getElementById("t1").value;
+ var w =document.getElementById("t2").value;
+ var m = eval(h + "*" + h);
+ var bmi = eval(w + "/" + m);
+ document.getElementById("t3").value=bmi;
+ }
+ </script>
+ 
+ 
+ WEIGHT:<input type="text" name="t1" id="t1"><br><br>
+ HEIGHT:<input type="text" name="t2" id="t2"><br><br 
+ <input type="button" name="b1" id="b1" value="=" onclick="calc()">
+ <input type="text" name="t3" id="t3"
+ </body>
+	</html>
