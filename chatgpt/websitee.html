@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Shaheen Shihas - Manager Profile</title>
+  <style>
+    /* Reset & base */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f7fb;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    header {
+      background: linear-gradient(90deg, #004a99, #007acc);
+      color: white;
+      padding: 25px 20px;
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    nav {
+      background: #007acc;
+      display: flex;
+      justify-content: center;
+      box-shadow: inset 0 -3px 0 #004a99;
+    }
+
+    nav button {
+      background: none;
+      border: none;
+      color: white;
+      padding: 15px 25px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      font-weight: 600;
+      transition: background 0.4s, color 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    nav button::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      height: 3px;
+      width: 100%;
+      background: #ffcc00;
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+      transform-origin: right;
+    }
+    nav button:hover::after,
+    nav button.active::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+    nav button:hover,
+    nav button.active {
+      background: #005bb5;
+      color: #ffcc00;
+      font-weight: 700;
+    }
+
+    main {
+      flex-grow: 1;
+      padding: 30px 20px;
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      min-height: 400px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Section fade animations */
+    main section {
+      display: none;
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+      position: absolute;
+      top: 30px;
+      left: 20px;
+      right: 20px;
+      bottom: 30px;
+      overflow-y: auto;
+      padding-right: 10px;
+    }
+    main section.active {
+      display: block;
+      opacity: 1;
+      position: relative;
+    }
+
+    h2 {
+      color: #004a99;
+      margin-bottom: 20px;
+      font-weight: 700;
+      border-bottom: 3px solid #007acc;
+      padding-bottom: 8px;
+    }
+
+    /* Profile container */
+    .profile-container {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .profile-container img {
+      max-width: 280px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0, 122, 204, 0.3);
+      transition: transform 0.3s ease;
+    }
+    .profile-container img:hover {
+      transform: scale(1.05);
+    }
+    .profile-container p {
+      font-size: 1.2rem;
+      font-style: italic;
+      color: #555;
+      margin-top: 20px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.5;
+    }
+
+    /* Lists with icons */
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    ul li {
+      margin-bottom: 15px;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #222;
+    }
+    ul li::before {
+      content: '';
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      flex-shrink: 0;
+    }
+
+    /* Icons for each list item */
+    /* Hobbies */
+    #hobbies li:nth-child(1)::before { background-image: url('https://cdn-icons-png.flaticon.com/512/889/889328.png'); } /* football */
+    #hobbies li:nth-child(2)::before { background-image: url('https://cdn-icons-png.flaticon.com/512/833/833314.png'); } /* video camera */
+    #hobbies li:nth-child(3)::before { background-image: url('https://cdn-icons-png.flaticon.com/512/854/854878.png'); } /* traveling plane */
+    #hobbies li:nth-child(4)::before { background-image: url('https://cdn-icons-png.flaticon.com/512/833/833472.png'); } /* movie clapper */
+
+    /* Qualifications */
+    #qualifications li:nth-child(1)::before { background-image: url('https://cdn-icons-png.flaticon.com/512/2991/2991100.png'); } /* diploma */
+    #qualifications li:nth-child(2)::before { background-image: url('https://cdn-icons-png.flaticon.com/512/3448/3448195.png'); } /* graduation cap */
+    #qualifications li:nth-child(3)::before { background-image: url('https://cdn-icons-png.flaticon.com/512/3577/3577114.png'); } /* certificate */
+
+    /* Activities */
+    #activities li:nth-child(1)::before { background-image: url('https://cdn-icons-png.flaticon.com/512/1055/1055646.png'); } /* film reel */
+    #activities li:nth-child(2)::before { background-image: url('https://cdn-icons-png.flaticon.com/512/1828/1828919.png'); } /* editor icon */
+    #activities li:nth-child(3)::before { background-image: url('https://cdn-icons-png.flaticon.com/512/252/252035.png'); } /* organizer icon */
+
+    /* Parents */
+    #parents p strong::after {
+      content: url('https://cdn-icons-png.flaticon.com/512/1946/1946429.png'); /* user icon */
+      display: inline-block;
+      margin-left: 8px;
+      vertical-align: middle;
+      width: 20px;
+      height: 20px;
+    }
+
+    /* Contact form */
+    form {
+      max-width: 500px;
+      margin: 0 auto;
+      font-size: 1rem;
+      color: #333;
+    }
+    label {
+      font-weight: 600;
+      margin-bottom: 5px;
+      display: inline-block;
+    }
+    input[type="text"], input[type="email"], textarea {
+      width: 100%;
+      padding: 10px;
+      border: 2px solid #007acc;
+      border-radius: 6px;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+      resize: vertical;
+    }
+    input[type="text"]:focus, input[type="email"]:focus, textarea:focus {
+      outline: none;
+      border-color: #004a99;
+    }
+    button[type="submit"] {
+      margin-top: 15px;
+      background: #007acc;
+      color: white;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: background 0.3s ease;
+      width: 100%;
+    }
+    button[type="submit"]:hover {
+      background: #005a99;
+    }
+
+    footer {
+      background: #222;
+      color: white;
+      text-align: center;
+      padding: 18px 10px;
+      font-size: 0.95rem;
+      letter-spacing: 0.5px;
+      margin-top: auto;
+      box-shadow: 0 -2px 6px rgba(0,0,0,0.4);
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      nav {
+        flex-wrap: wrap;
+      }
+      nav button {
+        flex: 1 1 45%;
+        margin: 5px 2%;
+      }
+      .profile-container img {
+        max-width: 100%;
+      }
+      main {
+        padding: 20px 15px;
+      }
+      main section {
+        top: 20px; left: 15px; right: 15px; bottom: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>SHAHEEN SHIHAS</header>
+
+<nav>
+  <button class="active" onclick="showSection('home', event)">Home</button>
+  <button onclick="showSection('hobbies', event)">My Hobbies</button>
+  <button onclick="showSection('qualifications', event)">Qualifications</button>
+  <button onclick="showSection('activities', event)">Extracurricular</button>
+  <button onclick="showSection('parents', event)">Parents Details</button>
+  <button onclick="showSection('contact', event)">Contact Me</button>
+</nav>
+
+<main>
+  <section id="home" class="active">
+    <h2>Welcome to My Professional Profile</h2>
+    <div class="profile-container">
+      <!-- Replace this src with your real image URL or relative path -->
+      <img src="D:\SHAHEENSHIHAS\css\chatgpt\ai_retouch_20250402164653446.jpeg" alt="Shaheen Shihas">
+      <p>
+        Hello! I’m <strong>Shaheen Shihas</strong>, a dedicated and visionary manager with a strong background in business administration and leadership. Based in the beautiful district of Malappuram, Kerala, I specialize in leveraging technology and innovation to drive organizational growth and success. My approach combines strategic thinking, passion for continuous learning, and a commitment to fostering team collaboration.
+        <br><br>
+        Beyond work, I enjoy football, videography, and traveling — passions that inspire creativity and balance in my life. I look forward to contributing to impactful projects and leading my team towards excellence.
+      </p>
+    </div>
+  </section>
+
+  <section id="hobbies">
+    <h2>My Hobbies</h2>
+    <ul>
+      <li>Playing football</li>
+      <li>Videography</li>
+      <li>Traveling</li>
+      <li>Watching Movies</li>
+    </ul>
+  </section>
+
+  <section id="qualifications">
+    <h2>Qualifications</h2>
+    <ul>
+      <li>Bachelor of Business Administration (BBA)</li>
+      <li>Completed 10th and 12th Grades</li>
+      <li>Diploma in Video Editing</li>
+    </ul>
+  </section>
+
+  <section id="activities">
+    <h2>Extracurricular Activities</h2>
+    <ul>
+      <li>Member of the Film Club</li>
+      <li>Editor of the College Magazine</li>
+      <li>Organized School Tech Fest</li>
+    </ul>
+  </section>
+
+  <section id="parents">
+    <h2>Parents Details</h2>
+    <p><strong>Father:</strong> SHIHAS.P - Businessman</p>
+    <p><strong>Mother:</strong> MANEESHA SHIHAS - Homemaker</p>
+  </section>
+
+  <section id="contact">
+    <h2>Contact Me</h2>
+    <form onsubmit="event.preventDefault(); alert('Thank you for reaching out!'); this.reset();">
+      <label for="name">Name:</label><br/>
+      <input type="text" id="name" required/><br/><br/>
+      <label for="email">Email:</label><br/>
+      <input type="email" id="email" required/><br/><br/>
+      <label for="message">Message:</label><br/>
+      <textarea id="message" rows="4" required></textarea><br/><br/>
+      <button type="submit">Send</button>
+    </form>
+  </section>
+</main>
+
+<footer>
+  &copy; 2025 SHAHEEN SHIHAS. All rights reserved.
+</footer>
+
+<script>
+  function showSection(sectionId, event) {
+    const sections = document.querySelectorAll('main section');
+    const buttons = document.querySelectorAll('nav button');
+
+    sections.forEach(section => {
+      section.classList.remove('active');
+    });
+
+    buttons.forEach(btn => {
+      btn.classList.remove('active');
+    });
+
+    document.getElementById(sectionId).classList.add('active');
+    event.currentTarget.classList.add('active');
+  }
+</script>
+
+</body>
+</html>

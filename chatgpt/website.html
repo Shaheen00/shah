@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My Personal Website</title>
+  <style>
+    /* Basic Reset and Styling */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      background: #007acc;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    nav {
+      background: #004a99;
+      display: flex;
+      justify-content: center;
+    }
+
+    nav button {
+      background: none;
+      border: none;
+      color: white;
+      padding: 15px 20px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.3s;
+    }
+
+    nav button:hover, nav button.active {
+      background: #0066cc;
+    }
+
+    main {
+      flex-grow: 1;
+      padding: 20px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    footer {
+      background: #222;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      font-size: 0.9rem;
+    }
+
+    /* Add styling for Messi image and text */
+    .messi-container {
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    .messi-container img {
+      width: 80%;
+      max-width: 600px;
+      border-radius: 10px;
+    }
+
+    .messi-container p {
+      font-size: 1.1rem;
+      font-style: italic;
+      margin-top: 15px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <header>SHAHEEN SHIHAS</header>
+
+  <nav>
+    <button class="active" onclick="showSection('home')">Home</button>
+    <button onclick="showSection('hobbies')">My Hobbies</button>
+    <button onclick="showSection('qualifications')">Qualifications</button>
+    <button onclick="showSection('activities')">Extracurricular</button>
+    <button onclick="showSection('parents')">Parents Details</button>
+    <button onclick="showSection('contact')">Contact Me</button>
+  </nav>
+
+  <main>
+    <section id="home">
+      <h2>Welcome to My Personal Website</h2>
+      <div class="messi-container">
+        <!-- shaheen's Image -->
+        <img src="D:\SHAHEENSHIHAS\chatgpt\ai_retouch_20250402164653446.jpeg" alt="Shaheen Shihas" style="max-width:300px; margin-top:20px border-radius:8px;">
+        <!-- Messi's Inspirational Text -->
+        <p>
+          "Hello! I am Shaheen Shihas, a passionate BBA student living in the beautiful district of Malappuram, Kerala. As a boy with big dreams, I’m constantly learning and growing — both academically and personally. I have a strong interest in business studies and love exploring how technology can change the world around us. When I’m not studying, you can find me enjoying my hobbies like football, videography, and traveling. I’m excited about what the future holds and eager to make a positive impact wherever I go"
+  </p>
+      </div>
+    </section>
+
+    <section id="hobbies" style="display:none;">
+      <h2>My Hobbies</h2>
+      <ul>
+        <li>Playing football</li>
+        <li>Videography</li>
+        <li>Traveling</li>
+        <li>Movies</li>
+      </ul>
+    </section>
+
+    <section id="qualifications" style="display:none;">
+      <h2>Qualifications</h2>
+      <ul>
+        <li>BBA</li>
+        <li>10th and 12th graduated</li>
+        <li>Diploma in Video Editing</li>
+      </ul>
+    </section>
+
+    <section id="activities" style="display:none;">
+      <h2>Extracurricular Activities</h2>
+      <ul>
+        <li>Member of the film club</li>
+        <li>Editor of the College</li>
+        <li>Organized school tech fest</li>
+      </ul>
+    </section>
+
+    <section id="parents" style="display:none;">
+      <h2>Parents Details</h2>
+      <p><strong>Father:</strong> SHIHAS.P - business</p>
+      <p><strong>Mother:</strong> MANEESHA SHIHAS - housewife</p>
+    </section>
+
+    <section id="contact" style="display:none;">
+      <h2>Contact Me</h2>
+      <form onsubmit="event.preventDefault(); alert('Thank you for reaching out!');">
+        <label for="name">Name:</label><br/>
+        <input type="text" id="name" required/><br/><br/>
+        <label for="email">Email:</label><br/>
+        <input type="email" id="email" required/><br/><br/>
+        <label for="message">Message:</label><br/>
+        <textarea id="message" rows="4" required></textarea><br/><br/>
+        <button type="submit">Send</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 SHAHEEN SHIHAS. All rights reserved.
+  </footer>
+
+  <script>
+    function showSection(sectionId) {
+      // Hide all sections
+      document.querySelectorAll('main section').forEach(sec => {
+        sec.style.display = 'none';
+      });
+
+      // Show selected section
+      document.getElementById(sectionId).style.display = 'block';
+
+      // Update active button style
+      document.querySelectorAll('nav button').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      event.currentTarget.classList.add('active');
+    }
+  </script>
+</body>
+</html>

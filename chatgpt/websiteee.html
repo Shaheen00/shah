@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Shaheen Shihas</title>
+  <style>
+    /* Reset & base */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #121212; /* Dark background */
+      color: #e0e0e0; /* Light text */
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    header {
+      background: linear-gradient(90deg, #0d47a1, #1976d2);
+      color: #ffd700;
+      padding: 30px 20px;
+      text-align: center;
+      font-size: 2.4rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.7);
+      text-transform: uppercase;
+      user-select: none;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    nav {
+      background: #1976d2;
+      display: flex;
+      justify-content: center;
+      box-shadow: inset 0 -3px 0 #0d47a1;
+      flex-wrap: wrap;
+    }
+
+    nav button {
+      background: none;
+      border: none;
+      color: #e0e0e0;
+      padding: 18px 30px;
+      cursor: pointer;
+      font-size: 1.15rem;
+      font-weight: 600;
+      transition: background 0.4s, color 0.3s, transform 0.2s ease;
+      position: relative;
+      overflow: hidden;
+      letter-spacing: 0.6px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      text-transform: uppercase;
+      margin: 5px 10px;
+      border-radius: 8px;
+    }
+    nav button::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      height: 3px;
+      width: 100%;
+      background: #ffd700;
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+      transform-origin: right;
+      border-radius: 2px;
+    }
+    nav button:hover::after,
+    nav button.active::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+    nav button:hover,
+    nav button.active {
+      background: #0d47a1;
+      color: #ffd700;
+      font-weight: 700;
+      transform: scale(1.05);
+      box-shadow: 0 0 12px #ffd700;
+    }
+
+    main {
+      flex-grow: 1;
+      padding: 35px 25px;
+      max-width: 900px;
+      margin: 25px auto 40px auto;
+      background: #1e1e1e;
+      border-radius: 15px;
+      box-shadow: 0 12px 40px rgba(255, 215, 0, 0.15);
+      min-height: 480px;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s ease;
+    }
+
+    /* Section fade animations */
+    main section {
+      display: none;
+      opacity: 0;
+      transition: opacity 0.6s ease-in-out;
+      position: absolute;
+      top: 30px;
+      left: 25px;
+      right: 25px;
+      bottom: 30px;
+      overflow-y: auto;
+      padding-right: 12px;
+      scrollbar-width: thin;
+      scrollbar-color: #ffd700 transparent;
+    }
+    main section::-webkit-scrollbar {
+      width: 6px;
+    }
+    main section::-webkit-scrollbar-thumb {
+      background: #ffd700;
+      border-radius: 3px;
+    }
+    main section.active {
+      display: block;
+      opacity: 1;
+      position: relative;
+    }
+
+    h2 {
+      color: #ffd700;
+      margin-bottom: 25px;
+      font-weight: 800;
+      border-bottom: 4px solid #0d47a1;
+      padding-bottom: 10px;
+      font-family: 'Montserrat', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      user-select: none;
+    }
+
+    /* Profile container */
+    .profile-container {
+      text-align: center;
+      margin-bottom: 35px;
+    }
+    .profile-container img {
+      max-width: 280px;
+      border-radius: 18px;
+      box-shadow: 0 12px 30px rgba(255, 215, 0, 0.5);
+      transition: transform 0.3s ease, box-shadow 0.4s ease;
+      filter: drop-shadow(0 0 6px #ffd700);
+    }
+    .profile-container img:hover {
+      transform: scale(1.08) rotate(1deg);
+      box-shadow: 0 20px 40px rgba(255, 215, 0, 0.8);
+      filter: drop-shadow(0 0 15px #ffd700);
+      cursor: pointer;
+    }
+    .profile-container p {
+      font-size: 1.25rem;
+      font-style: italic;
+      color: #ccc;
+      margin-top: 25px;
+      max-width: 720px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+      letter-spacing: 0.02em;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* Lists with icons */
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    ul li {
+      margin-bottom: 18px;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: #ddd;
+      font-weight: 500;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      user-select: none;
+    }
+    ul li::before {
+      content: '';
+      display: inline-block;
+      width: 28px;
+      height: 28px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      flex-shrink: 0;
+      filter: drop-shadow(0 0 2px #ffd700);
+      transition: filter 0.3s ease;
+    }
+    ul li:hover::before {
+      filter: drop-shadow(0 0 6px #ffea00);
+      transform: scale(1.15);
+      transition: all 0.3s ease;
+    }
+
+    /* Icons for each list item */
+    /* Hobbies */
+    #hobbies li:nth-child(1)::before { background-image: url('https://cdn-icons-png.flaticon.com/512/889/889328.png'); } /* football */
+    #hobbies li:nth-child(2)::before { background-image: url('https://cdn-icons-png.flaticon.com/512/833/833314.png'); } /* video camera */
+    #hobbies li:nth-child(3)::before { background-image: url('https://cdn-icons-png.flaticon.com/512/854/854878.png'); } /* traveling plane */
+    #hobbies li:nth-child(4)::before { background-image: url('https://cdn-icons-png.flaticon.com/512/833/833472.png'); } /* movie clapper */
+
+    /* Qualifications */
+    #qualifications li:nth-child(1)::before { background-image: url('https://cdn-icons-png.flaticon.com/512/2991/2991100.png'); } /* diploma */
+    #qualifications li:nth-child(2)::before { background-image: url('https://cdn-icons-png.flaticon.com/512/3448/3448195.png'); } /* graduation cap */
+    #qualifications li:nth-child(3)::before { background-image: url('https://cdn-icons-png.flaticon.com/512/3577/3577114.png'); } /* certificate */
+
+    /* Activities */
+    #activities li:nth-child(1)::before { background-image: url('https://cdn-icons-png.flaticon.com/512/1055/1055646.png'); } /* film reel */
+    #activities li:nth-child(2)::before { background-image: url('https://cdn-icons-png.flaticon.com/512/1828/1828919.png'); } /* editor icon */
+    #activities li:nth-child(3)::before { background-image: url('https://cdn-icons-png.flaticon.com/512/252/252035.png'); } /* organizer icon */
+
+    /* Parents */
+    /* Removed the icon after strong to fix the hiding issue */
+    #parents p {
+      font-size: 1.2rem;
+      color: #ddd;
+      line-height: 1.5;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin-bottom: 18px;
+    }
+
+    /* Contact form */
+    form {
+      max-width: 520px;
+      margin: 0 auto;
+      font-size: 1rem;
+      color: #ddd;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      user-select: none;
+    }
+    label {
+      font-weight: 700;
+      margin-bottom: 8px;
+      display: inline-block;
+      color: #ffd700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    input[type="text"], input[type="email"], textarea {
+      width: 100%;
+      padding: 14px 12px;
+      border: 2px solid #0d47a1;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.4s ease, background-color 0.3s ease, color 0.3s ease;
+      resize: vertical;
+      background: #222;
+      color: #eee;
+      box-shadow: inset 0 0 6px rgba(13,71,161,0.6);
+    }
+    input[type="text"]:focus, input[type="email"]:focus, textarea:focus {
+      outline: none;
+      border-color: #ffd700;
+      background: #1a1a1a;
+      color: #fff;
+      box-shadow: 0 0 10px #ffd700;
+    }
+    button[type="submit"] {
+      margin-top: 20px;
+      background: #ffd700;
+      color: #121212;
+      padding: 14px 25px;
+      border: none;
+      border-radius: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      font-size: 1.2rem;
+      transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+      width: 100%;
+      box-shadow: 0 4px 10px rgba(255, 215, 0, 0.7);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      user-select: none;
+      font-family: 'Montserrat', sans-serif;
+    }
+    button[type="submit"]:hover {
+      background: #e6c200;
+      color: #000;
+      box-shadow: 0 6px 18px rgba(230, 194, 0, 0.9);
+      transform: scale(1.05);
+    }
+
+    footer {
+      background: #111;
+      color: #888;
+      text-align: center;
+      padding: 20px 15px;
+      font-size: 1rem;
+      letter-spacing: 0.6px;
+      margin-top: auto;
+      box-shadow: 0 -2px 8px rgba(0,0,0,0.9);
+      user-select: none;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* Responsive */
+    @media (max-width: 650px) {
+      nav {
+        justify-content: center;
+      }
+      nav button {
+        flex: 1 1 40%;
+        margin: 8px 6px;
+        font-size: 1rem;
+        padding: 12px 15px;
+      }
+      .profile-container img {
+        max-width: 100%;
+      }
+      main {
+        margin: 15px 12px 25px 12px;
+        padding: 20px 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>SHAHEEN SHIHAS</header>
+
+  <nav>
+    <button id="btn-about" class="active">About Me</button>
+    <button id="btn-qualifications">Qualifications</button>
+    <button id="btn-activities">Activities</button>
+    <button id="btn-hobbies">Hobbies</button>
+    <button id="btn-parents">Parents</button>
+    <button id="btn-contact">Contact</button>
+  </nav>
+
+  <main>
+    <section id="about" class="active">
+      <div class="profile-container">
+        <img src="D:\SHAHEENSHIHAS\css\chatgpt\ai_retouch_20250402164653446.jpeg" alt="Shaheen Shihas photo" />
+        <p><em>"To achieve my goal of becoming a successful businessman, I must work hard, stay focused, and keep learning every day."</em></p>
+      </div>
+      <p>
+       "Hello! I am Shaheen Shihas, a passionate BBA student living in the beautiful district of Malappuram, Kerala. As a boy with big dreams, I’m constantly learning and growing — both academically and personally. I have a strong interest in business studies and love exploring how technology can change the world around us. When I’m not studying, you can find me enjoying my hobbies like football, videography, and traveling. I’m excited about what the future holds and eager to make a positive impact wherever I go"
+  </p>
+    </section>
+
+    <section id="qualifications">
+      <h2>My Qualifications</h2>
+      <ul>
+        <li>BBA</li>
+        <li>10th and 12th graduated</li>
+      </ul>
+    </section>
+
+    <section id="activities">
+      <h2>My Activities</h2>
+      <ul>
+        <li>Member of the film club</li>
+        <li>Organized school tech fes</li>
+        <li>Video Editing</li>
+      </ul>
+    </section>
+
+    <section id="hobbies">
+      <h2>My Hobbies</h2>
+      <ul>
+        <li>Playing football</li>
+        <li>Videography</li>
+        <li>Traveling</li>
+        <li>Watching Movies</li>
+      </ul>
+    </section>
+
+    <section id="parents">
+      <h2>Parents Details</h2>
+      <p><strong>Father:</strong> SHIHAS.P - Businessman</p>
+      <p><strong>Mother:</strong> MANEESHA SHIHAS - Homemaker</p>
+    </section>
+
+    <section id="contact">
+      <h2>Contact Me</h2>
+      <form id="contact-form" autocomplete="off">
+        <label for="name">Your Name:</label>
+        <input type="text" id="name" name="name" placeholder="Enter your name" required />
+
+        <label for="email">Your Email:</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required />
+
+        <label for="message">Your Message:</label>
+        <textarea id="message" name="message" rows="6" placeholder="Write your message here" required></textarea>
+
+        <button type="submit">Send Message</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 Shaheen Shihas. All rights reserved.
+  </footer>
+
+  <script>
+    // Simple tab navigation script
+    const buttons = document.querySelectorAll('nav button');
+    const sections = document.querySelectorAll('main section');
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Remove active class from buttons & sections
+        buttons.forEach(b => b.classList.remove('active'));
+        sections.forEach(s => s.classList.remove('active'));
+
+        // Add active class to clicked button and corresponding section
+        btn.classList.add('active');
+        const targetId = btn.id.replace('btn-', '');
+        const targetSection = document.getElementById(targetId);
+        if(targetSection) {
+          targetSection.classList.add('active');
+        }
+      });
+    });
+
+    // Optional: Contact form submission handler (prevent default submit)
+    document.getElementById('contact-form').addEventListener('submit', e => {
+      e.preventDefault();
+      alert('Thank you for contacting Shaheen Shihas! Your message has been sent.');
+      e.target.reset();
+    });
+  </script>
+</body>
+</html>
